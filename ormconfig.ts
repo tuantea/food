@@ -1,6 +1,6 @@
 // import * as dotenv from 'dotenv';
 // dotenv.config();
-// module.exports = {
+// const ormconfig = {
 //   type: process.env.TYPE_DATABASE,
 //   host: process.env.MYSQL_HOST,
 //   port: parseInt(process.env.MYSQL_PORT),
@@ -8,13 +8,21 @@
 //   password: process.env.MYSQL_ROOT_PASSWORD,
 //   database: process.env.MYSQL_DATABASE,
 //   synchronize: false,
+//   cli: {
+//     migrationsDir: 'src/migration',
+//   },
 // };
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 const ormconfig: MysqlConnectionOptions = {
   type: 'mysql',
-  database: 'db',
+  host: 'localhost',
+  port: 3308,
+  username: 'root',
+  password: 'password',
+  database: 'foodprojectdb',
   entities: ['dist/src/**/*.entity.js'],
-  synchronize: true,
+  synchronize: false,
+  migrations: ['src/database/migrations/*.ts'],
 };
 export default ormconfig;
