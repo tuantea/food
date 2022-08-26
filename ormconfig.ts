@@ -23,7 +23,7 @@ const ormconfig: MysqlConnectionOptions = {
   database: 'foodprojectdb',
   entities: ['dist/src/**/*.entity.js'],
   synchronize: false,
-  migrations: ['src/database/migrations/*.ts'],
+  // migrations: ['src/database/migrations/*.ts'],
   cli: {
     migrationsDir: 'src/database/migrations',
     entitiesDir: 'src/modules/**',

@@ -12,22 +12,27 @@ export class UserService {
     private readonly userRepo: Repository<User>,
   ) {}
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.userRepo.save(createUserDto);
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.userRepo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepo.findOne(id);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    if (this.userRepo.findOne(id)) {
+      updateUserDto.id = id;
+      console.log(updateUserDto);
+      return this.userRepo.save(updateUserDto);
+    }
+    return `Accout khong ton tai`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepo.delete(id);
   }
 }
