@@ -24,5 +24,9 @@ const ormconfig: MysqlConnectionOptions = {
   entities: ['dist/src/**/*.entity.js'],
   synchronize: false,
   migrations: ['src/database/migrations/*.ts'],
+  cli: {
+    migrationsDir: 'src/database/migrations',
+    entitiesDir: 'src/modules/**',
+  },
 };
 export default ormconfig;
