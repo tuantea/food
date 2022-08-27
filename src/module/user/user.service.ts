@@ -22,7 +22,9 @@ export class UserService {
   findOne(id: number) {
     return this.userRepo.findOne(id);
   }
-
+  findName(name: string) {
+    return this.userRepo.findOne(name);
+  }
   update(id: number, updateUserDto: UpdateUserDto) {
     if (this.userRepo.findOne(id)) {
       updateUserDto.id = id;
