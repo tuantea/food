@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -11,7 +12,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     return this.userRepo.save(createUserDto);
   }
 
@@ -24,6 +26,12 @@ export class UserService {
   }
   findName(name: string) {
     return this.userRepo.findOne(name);
+  }
+  async login(email: string, password: string) {
+    const user = await this.userRepo.findOne({ email: email });
+    if (!user)
+      throw new HttpException('Email does not exist', HttpStatus.NOT_FOUND);
+    return user;
   }
   update(id: number, updateUserDto: UpdateUserDto) {
     if (this.userRepo.findOne(id)) {

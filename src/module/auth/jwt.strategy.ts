@@ -15,8 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    if (payload.project !== process.env.PROJECT_NAME)
-      throw new HttpException('InvalidToken', HttpStatus.UNAUTHORIZED);
-    return payload;
+    return { ...payload };
   }
 }
