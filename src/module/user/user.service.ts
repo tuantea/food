@@ -22,19 +22,19 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return this.userRepo.findOne(id);
+    return this.userRepo.findOne({ where: { id: id } });
   }
   findName(name: string) {
-    return this.userRepo.findOne(name);
+    return this.userRepo.findOne({ where: { username: name } });
   }
-  async login(email: string, password: string) {
-    const user = await this.userRepo.findOne({ email: email });
+  async login(email: string) {
+    const user = await this.userRepo.findOne({ where: { email: email } });
     if (!user)
       throw new HttpException('Email does not exist', HttpStatus.NOT_FOUND);
     return user;
   }
   update(id: number, updateUserDto: UpdateUserDto) {
-    if (this.userRepo.findOne(id)) {
+    if (this.userRepo.findOne({ where: { id: id } })) {
       updateUserDto.id = id;
       console.log(updateUserDto);
       return this.userRepo.save(updateUserDto);
