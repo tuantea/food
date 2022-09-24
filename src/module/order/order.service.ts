@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { JwtPayload } from '../auth/payload.interface';
 import { UserService } from '../user/user.service';
 import { CreateOrderItemsDto } from './dto/create-order-items.dto';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { Order_Items } from './entities/order_Items.entity';
@@ -24,6 +23,17 @@ export class OrderService {
   async createPayment(id: number) {
     return this.paymentRepo.save({ userId: id });
   }
+  async findPayment(id: number) {
+    return this.paymentRepo.findOne({ where: { userId: id, status: 0 } });
+  }
+  async findOrder(userReq: JwtPayload) {
+    const user = await this.userService.userExist(userReq);
+    const payment = await this.findPayment(user.id);
+    if (!payment) return null;
+    return this.orderRepo.findOne({
+      where: { userId: user.id, paymentId: payment.id },
+    });
+  }
   async createOrder(userReq: JwtPayload) {
     const user = await this.userService.userExist(userReq);
     const payment = await this.createPayment(user.id);
@@ -33,12 +43,23 @@ export class OrderService {
     createOrderItemsDto: CreateOrderItemsDto,
     userReq: JwtPayload,
   ) {
-    const order = await this.createOrder(userReq);
-    createOrderItemsDto.orderId = order.id;
+    const order1 = await this.findOrder(userReq);
+    if (!order1) {
+      const order = await this.createOrder(userReq);
+      createOrderItemsDto.orderId = order.id;
+    } else {
+      createOrderItemsDto.orderId = order1.id;
+    }
     return this.orderItemRepo.save(createOrderItemsDto);
   }
-  findAll() {
-    return `This action returns all order`;
+  async findAll(userReq: JwtPayload) {
+    const user = await this.userService.userExist(userReq);
+    const order = await this.orderRepo.findOne({
+      where: { userId: user.id },
+      order: { createDate: 'DESC' },
+    });
+    console.log(order.listOrder);
+    return order.listOrder;
   }
 
   findOne(id: number) {

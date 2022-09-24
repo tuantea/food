@@ -22,19 +22,18 @@ export class AuthService {
     return null;
   }
   async login(loginUserDto: LoginUserDto) {
-    const payload = { email: loginUserDto.email, sub: loginUserDto.password };
     const user = await this.validateUser(
       loginUserDto.email,
       loginUserDto.password,
     );
     if (user === null)
       throw new HttpException('Incorrect password', HttpStatus.NOT_FOUND);
-    const user1: JwtPayload = {
+    const payload: JwtPayload = {
       email: loginUserDto.email,
     };
     return {
       user,
-      access_token: this.jwtService.sign(user1),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

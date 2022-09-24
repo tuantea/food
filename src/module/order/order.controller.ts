@@ -9,11 +9,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateOrderItemsDto } from './dto/create-order-items.dto';
-import { JwtPayload } from '../auth/payload.interface';
 @ApiBearerAuth()
 @ApiTags('Order')
 @Controller('order')
@@ -26,8 +24,8 @@ export class OrderController {
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  findAll(@Req() req: any) {
+    return this.orderService.findAll(req);
   }
 
   @Get(':id')
