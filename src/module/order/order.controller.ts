@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CreateOrderItemsDto } from './dto/create-order-items.dto';
+import { JwtPayload } from '../auth/payload.interface';
 @ApiBearerAuth()
 @ApiTags('Order')
 @Controller('order')
@@ -18,8 +21,8 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  create(@Body() createOrderItemsDto: CreateOrderItemsDto, @Req() req: any) {
+    return this.orderService.createOrderItems(createOrderItemsDto, req.user);
   }
 
   @Get()

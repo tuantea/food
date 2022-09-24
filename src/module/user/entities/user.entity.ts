@@ -1,5 +1,4 @@
-import { Order } from 'src/module/order/entities/order.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
 export class User {
@@ -14,8 +13,6 @@ export class User {
 
   @Column()
   password: string;
-  @OneToMany(() => Order, (listOrder) => listOrder.foodId)
-  listOrder: Order[];
 
   @Column()
   createDate: Date;

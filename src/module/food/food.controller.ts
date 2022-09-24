@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { FoodService } from './food.service';
 import { CreateFoodDto } from './dto/create-food.dto';
-import { UpdateFoodDto } from './dto/update-food.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth()
 @ApiTags('Food')
@@ -27,13 +26,13 @@ export class FoodController {
     return this.foodService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.foodService.findOne(+id);
+  @Get(':name')
+  findOne(@Param('name') name: string) {
+    return this.foodService.findOne(name);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
+  update(@Param('id') id: string, @Body() updateFoodDto: CreateFoodDto) {
     return this.foodService.update(+id, updateFoodDto);
   }
 

@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { JwtPayload } from '../auth/payload.interface';
 
 @Injectable()
 export class UserService {
@@ -44,5 +45,12 @@ export class UserService {
 
   remove(id: number) {
     return this.userRepo.delete(id);
+  }
+  async userExist({ email }: JwtPayload) {
+    const user = await this.userRepo.findOne({
+      where: { email: email },
+    });
+    if (!user) throw new HttpException('invalidToken', HttpStatus.UNAUTHORIZED);
+    return user;
   }
 }

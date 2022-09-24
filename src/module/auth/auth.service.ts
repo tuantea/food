@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { UserService } from '../user/user.service';
+import { JwtPayload } from './payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -28,9 +29,12 @@ export class AuthService {
     );
     if (user === null)
       throw new HttpException('Incorrect password', HttpStatus.NOT_FOUND);
+    const user1: JwtPayload = {
+      email: loginUserDto.email,
+    };
     return {
       user,
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(user1),
     };
   }
 }

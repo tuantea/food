@@ -4,6 +4,6 @@ import { ShipController } from './ship.controller';
 
 @Module({
   controllers: [ShipController],
-  providers: [ShipService]
+  providers: [ShipService],
 })
 export class ShipModule {}

@@ -58,6 +58,32 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## NPM scripts
+
+- Lint check and fix
+
+```bash
+  npm run lint
+```
+
+- TypeOrm create empty migration file
+
+```bash
+  npm run typeorm:create --name=file_name
+```
+
+- TypeOrm migration run
+
+```bash
+  npm run typeorm:up
+```
+
+- TypeOrm migration revert
+
+```bash
+  npm run typeorm:down
+```
+
 ## Generate resource Nestjs
 
 ```bash
