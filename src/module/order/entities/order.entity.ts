@@ -16,6 +16,6 @@ export class Order {
   createDate: Date;
   @Column()
   updateDate: Date;
-  @OneToMany(() => Order_Items, (listOrder) => listOrder.orderId)
+  @OneToMany(() => Order_Items, (listOrder) => listOrder.order)
   listOrder: Order_Items[];
 }

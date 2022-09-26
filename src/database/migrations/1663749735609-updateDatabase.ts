@@ -52,6 +52,7 @@ export class updateDatabase1663749735609 implements MigrationInterface {
         orderId INT(6) UNSIGNED, 
         amount INT(6), 
         foodId INT(6) UNSIGNED,
+        status INT(1) default 0,
         createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         CONSTRAINT FK_order_items FOREIGN KEY (orderId) REFERENCES orders(id) ON UPDATE CASCADE ON DELETE CASCADE,

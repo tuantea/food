@@ -24,8 +24,8 @@ export class OrderController {
   }
 
   @Get()
-  findAll(@Req() req: any) {
-    return this.orderService.findAll(req);
+  listCart(@Req() req: any) {
+    return this.orderService.listCart(req);
   }
 
   @Get(':id')

@@ -52,13 +52,13 @@ export class OrderService {
     }
     return this.orderItemRepo.save(createOrderItemsDto);
   }
-  async findAll(userReq: JwtPayload) {
+  async listCart(userReq: JwtPayload) {
     const user = await this.userService.userExist(userReq);
     const order = await this.orderRepo.findOne({
       where: { userId: user.id },
       order: { createDate: 'DESC' },
+      relations: ['listOrder'],
     });
-    console.log(order.listOrder);
     return order.listOrder;
   }
 
